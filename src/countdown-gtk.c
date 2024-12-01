@@ -71,6 +71,7 @@ static void main_window(GtkApplication *app, gpointer user_data) {
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_window_set_child(GTK_WINDOW(window), box);
     entry = gtk_entry_new();
+    gtk_entry_set_alignment(GTK_ENTRY(entry), 1.0);
     gtk_box_append(GTK_BOX(box), entry);
     button = gtk_button_new_with_label("Start");
     gtk_box_append(GTK_BOX(box), button);
