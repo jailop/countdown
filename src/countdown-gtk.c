@@ -103,6 +103,7 @@ static gboolean update_label(GtkWidget *entry) {
         int curr_min = limit / 60;
         if (curr_min != prev_min && prev_min != -1) {
             set_entry_bg("grey-bg");
+            beep_sequence();
             g_timeout_add(3000, (GSourceFunc) remove_bg, NULL);
         }
         prev_min = curr_min;
