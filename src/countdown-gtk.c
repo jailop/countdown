@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include <time.h>
+#include <glib.h>
 
 // Labels are defined as icons using unicode characters,
 // as well as text.
@@ -36,6 +37,12 @@ GNotification *notify;
 GtkApplication *app;
 int prev_min = -1;  // for minute change
 
+static void beep_sequence() {
+    for(int i = 0; i < 5; i++) {
+        gdk_display_beep(gdk_display_get_default());
+        g_usleep(200000);
+    }
+}
 
 static void set_entry_bg(const char *class_name) {
     gtk_widget_remove_css_class(entry, "green-bg");
@@ -62,11 +69,7 @@ static void _restart() {
     active = FALSE;
 }
 
-static void restart() {
-    g_application_send_notification(G_APPLICATION(app), "times-up",
-            G_NOTIFICATION(notify));
-    _restart();
-}
+
 
 static void reset(GtkWidget *widget, gpointer user_data) {
     char last_str[15];
@@ -91,7 +94,9 @@ static gboolean update_label(GtkWidget *entry) {
     start = current;
     if (limit <= 0) {
         set_entry_bg("red-bg");
-        restart();
+        g_application_send_notification(G_APPLICATION(app), "times-up", G_NOTIFICATION(notify));
+        beep_sequence();
+        _restart();
         limit = remind;
     } else {
         int curr_min = limit / 60;
@@ -112,7 +117,7 @@ static void set_time(GtkWidget *widget, gpointer user_data) {
     if (active) {
         set_entry_bg("green-bg");
         prev_min = limit / 60;
-        restart();
+        _restart();
     } else {
         GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(entry));
         const char *text = gtk_entry_buffer_get_text(buffer);
