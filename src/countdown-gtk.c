@@ -94,7 +94,8 @@ static gboolean update_label(GtkWidget *entry) {
     start = current;
     if (limit <= 0) {
         set_entry_bg("red-bg");
-        g_application_send_notification(G_APPLICATION(app), "times-up", G_NOTIFICATION(notify));
+        g_application_send_notification(G_APPLICATION(app), "times-up", 
+                G_NOTIFICATION(notify));
         beep_sequence();
         _restart();
         limit = remind;
@@ -140,13 +141,16 @@ static void set_time(GtkWidget *widget, gpointer user_data) {
 static void main_window(GtkApplication *app, gpointer user_data) {
     GtkWidget *window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "Countdown");
-    gtk_widget_set_size_request(GTK_WIDGET(window), 80, -1);
+    gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
+    gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+    gtk_widget_set_opacity(window, 0.6);
     
     GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_window_set_child(GTK_WINDOW(window), hbox);
     
     entry = gtk_entry_new();
-    gtk_widget_set_size_request(entry, 60, -1);
+    gtk_editable_set_width_chars(GTK_EDITABLE(entry), 5);
+    gtk_entry_set_has_frame(GTK_ENTRY(entry), FALSE);
     gtk_entry_set_max_length(GTK_ENTRY(entry), 8);
     gtk_entry_set_alignment(GTK_ENTRY(entry), 1.0);
     gtk_box_append(GTK_BOX(hbox), entry);
@@ -155,8 +159,6 @@ static void main_window(GtkApplication *app, gpointer user_data) {
     btn_reset = gtk_button_new_from_icon_name(ICO_RESET);
     gtk_widget_set_tooltip_text(btn_start, LBL_START);
     gtk_widget_set_tooltip_text(btn_reset, LBL_RESET);
-    gtk_widget_set_hexpand(btn_start, TRUE);
-    gtk_widget_set_hexpand(btn_reset, TRUE);
 
     gtk_box_append(GTK_BOX(hbox), btn_start);
     gtk_box_append(GTK_BOX(hbox), btn_reset);
