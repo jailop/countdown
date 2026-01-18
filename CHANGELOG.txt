@@ -1,0 +1,4 @@
+2026-01-18:
+
+- Including windows decoration and removing transparency in order to
+  make the gtk app functional in different desktop/window managers.

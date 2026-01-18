@@ -72,7 +72,7 @@ static void _restart() {
 
 
 static void reset(GtkWidget *widget, gpointer user_data) {
-    char last_str[15];
+    // char last_str[15];
     _restart();    
     limit = last;
     // sprintf(last_str, "%d", last);
@@ -142,9 +142,9 @@ static void set_time(GtkWidget *widget, gpointer user_data) {
 static void main_window(GtkApplication *app, gpointer user_data) {
     GtkWidget *window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "Countdown");
-    gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
+    // gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
-    gtk_widget_set_opacity(window, 0.6);
+    // gtk_widget_set_opacity(window, 0.6);
     
     GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_window_set_child(GTK_WINDOW(window), hbox);
